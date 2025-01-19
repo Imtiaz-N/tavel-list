@@ -6,6 +6,7 @@ import { useState } from "react";
 
 export default function App() {
   const [items, setItems] = useState([]);
+
   const addItem = (newItem) => {
     setItems([...items, { id: Date.now(), ...newItem }]);
   };
@@ -21,6 +22,13 @@ export default function App() {
     setItems(items.filter((item) => item.id !== id));
   };
 
+  const handleClearList = () => {
+    const confirmed = window.confirm(
+      "Are you sure you want to delete all items"
+    );
+    if (confirmed) setItems([]);
+  };
+
   return (
     <div className="app">
       <Logo />
@@ -29,8 +37,9 @@ export default function App() {
         items={items}
         toggleItemPacked={toggleItemPacked}
         removeItem={removeItem}
+        clearList={handleClearList}
       />
-      <Stats />
+      <Stats items={items} />
     </div>
   );
 }
